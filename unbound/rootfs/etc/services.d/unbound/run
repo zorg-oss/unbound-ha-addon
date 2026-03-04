@@ -29,6 +29,17 @@ else
     fi
 fi
 
+# Update root hints (fallback to bundled copy on failure)
+bashio::log.info "Updating root hints..."
+if curl -sS --max-time 15 -o /etc/unbound/root.hints.tmp \
+    https://www.internic.net/domain/named.root 2>/dev/null; then
+    mv /etc/unbound/root.hints.tmp /etc/unbound/root.hints
+    bashio::log.info "Root hints updated"
+else
+    rm -f /etc/unbound/root.hints.tmp
+    bashio::log.warning "Failed to update root hints, using bundled copy"
+fi
+
 # Check if custom config exists (check multiple locations)
 if [ -f "/config/unbound/unbound.conf" ]; then
     bashio::log.info "Using custom unbound.conf from /config/unbound folder"
