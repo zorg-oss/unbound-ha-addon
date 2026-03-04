@@ -25,7 +25,7 @@ server:
     # Use this only when you downloaded the list of primary root servers!
     # If you use the default dns-root-data package, unbound will find it automatically
     root-hints: "/etc/unbound/root.hints"
-    auto-trust-anchor-file: "/var/lib/unbound/root.key"
+    #auto-trust-anchor-file: "/var/lib/unbound/root.key"
 
     # Trust glue only if it is within the server's authority
     qname-minimisation: yes
