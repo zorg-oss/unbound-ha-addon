@@ -10,6 +10,12 @@ RUN \
         bind-tools \
     && rm -rf /tmp/* /var/cache/apk/*
 
+# Create necessary directories and download root hints
+RUN mkdir -p /var/run/unbound /etc/unbound /var/lib/unbound /data && \
+    curl -o /etc/unbound/root.hints https://www.internic.net/domain/named.root && \
+    unbound-anchor -a /var/lib/unbound/root.key || true && \
+    chown -R unbound:unbound /var/lib/unbound /var/run/unbound
+    
 # Copy rootfs  
 COPY rootfs /
 
